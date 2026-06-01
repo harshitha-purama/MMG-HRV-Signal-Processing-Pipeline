@@ -1,4 +1,4 @@
-# MMG-HRV Readiness State Pipeline
+# MMG-HRV Signal Processing Pipeline
 
 A multimodal signal processing and classification pipeline combining **mechanomyography (MMG)** and **heart rate variability (HRV)** to estimate neurophysiological readiness states for adaptive closed-loop functional electrical stimulation (FES).
 
@@ -28,6 +28,28 @@ Most FES rehabilitation systems operate open-loop — stimulation is applied on 
 
 ---
 
+## Results
+
+### HRV Feature Distributions — 270 real NSRDB windows across 6 subjects
+
+![HRV Feature Distributions](results/figures/hrv_feature_distributions.png)
+
+### Per-Subject HRV Variability
+
+![Per-Subject HRV Comparison](results/figures/hrv_subject_comparison.png)
+
+> Subject 16539 shows median RMSSD ~70 ms versus subject 16483 at ~10 ms — a 7× inter-subject difference in vagal tone among healthy adults. This motivates patient-level normalisation before applying fixed readiness thresholds in clinical FES.
+
+### RMSSD Time-Course (first 5 hours per subject)
+
+![RMSSD Time-Course](results/figures/hrv_rmssd_timecourse.png)
+
+### HRV Power Spectral Density — per subject
+
+![HRV PSD Multi-Subject](results/figures/hrv_psd_multisubject.png)
+
+---
+
 ## Data
 
 | Signal | Source | Details |
@@ -51,9 +73,14 @@ src/
   data_loader.py     — PhysioNet NSRDB downloader with local caching
 
 notebooks/
-  01_hrv_analysis.ipynb       — Full HRV pipeline from real ECG
-  02_mmg_analysis.ipynb       — MMG feature extraction across four states
+  01_hrv_analysis.ipynb        — Full HRV pipeline from real ECG
+  02_mmg_analysis.ipynb        — MMG feature extraction across four states
   03_multimodal_pipeline.ipynb — Combined classifier, SVM training, FES simulation
+
+results/
+  hrv_features_real_nsrdb.csv       — 270 real HRV windows, all features
+  hrv_subject_summary_real_nsrdb.csv — per-subject mean ± SD
+  figures/                           — all plots
 ```
 
 ---
@@ -65,7 +92,13 @@ pip install -r requirements.txt
 jupyter lab
 ```
 
-Then open `notebooks/01_hrv_analysis.ipynb` and run all cells. The PhysioNet data will download automatically on first run (~2 MB per 60-second segment).
+Open `notebooks/01_hrv_analysis.ipynb` and run all cells. PhysioNet data downloads automatically on first run (~2 MB per segment, cached after that).
+
+To regenerate all result figures and CSVs:
+
+```bash
+python generate_results.py
+```
 
 ---
 
