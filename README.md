@@ -2,6 +2,8 @@
 
 A multimodal signal processing and classification pipeline combining **mechanomyography (MMG)** and **heart rate variability (HRV)** to estimate neurophysiological readiness states for adaptive closed-loop functional electrical stimulation (FES).
 
+> **Data note:** the ECG and HRV work uses real recordings (PhysioNet NSRDB). The MMG signal is simulated from published parameters, because no public FES-MMG dataset was found, so the combined classifier has not been tested on real MMG.
+
 ---
 
 ## Background
